@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import type { AlgoliaStory } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
 
 function App() {
-  const [stories, setStories] = useState<any[]>([]);
+  const [stories, setStories] = useState<AlgoliaStory[]>([]);
 
   useEffect(() => {
     async function loadStories() {
@@ -22,7 +23,7 @@ function App() {
         {stories.map((story) => (
           <li key={story.objectID}>
             <a
-              href={story.url}
+              href={story.url ?? undefined}
               target="_blank"
               rel="noreferrer"
               className="font-bold hover:text-orange-500"
