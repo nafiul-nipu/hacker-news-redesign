@@ -5,12 +5,16 @@ type StoryListProps = {
   stories: AlgoliaStory[];
   isStoryOpened: (storyId: string) => boolean;
   onOpenStory: (storyId: string) => void;
+  isStoryStarred: (storyId: string) => boolean;
+  onToggleStarredStory: (story: AlgoliaStory) => void;
 };
 
 export function StoryList({
   stories,
   isStoryOpened,
   onOpenStory,
+  isStoryStarred,
+  onToggleStarredStory,
 }: StoryListProps) {
   return (
     <>
@@ -21,6 +25,8 @@ export function StoryList({
             story={story}
             isOpened={isStoryOpened(story.objectID)}
             onOpenStory={onOpenStory}
+            isStarred={isStoryStarred(story.objectID)}
+            onToggleStarredStory={onToggleStarredStory}
           />
         ))}
       </ol>

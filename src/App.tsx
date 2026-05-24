@@ -7,11 +7,13 @@ import type { AlgoliaStory } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
 import { useTheme } from "./hooks/useTheme";
 import { useOpenedStories } from "./hooks/useOpenedStories";
+import { useStarredStories } from "./hooks/useStarredStories";
 
 function App() {
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
   const { theme, toggleTheme } = useTheme();
   const { openStory, isStoryOpened } = useOpenedStories();
+  const { isStoryStarred, toggleStarredStory } = useStarredStories();
 
   const isDark = theme === "dark";
   const pageClasses = isDark
@@ -39,6 +41,8 @@ function App() {
             stories={stories}
             isStoryOpened={isStoryOpened}
             onOpenStory={openStory}
+            isStoryStarred={isStoryStarred}
+            onToggleStarredStory={toggleStarredStory}
           />
         </main>
 
