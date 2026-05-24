@@ -9,6 +9,7 @@ export async function fetchLatestStories(): Promise<AlgoliaStory[]> {
 
   // data
   const data: AlgoliaSearchResponse = await response.json();
+  console.log(data);
 
   return data.hits;
 }

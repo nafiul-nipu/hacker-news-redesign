@@ -1,10 +1,25 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import type { AlgoliaStory } from "./types";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import type { AlgoliaStory, Theme } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
 
 function App() {
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  function handleToggleTheme() {
+    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+  }
+
+  const isDark = theme === "dark";
+
+  const pageClasses = isDark
+    ? "min-h-screen border-t-4 border-[#ff6600] bg-[#1f2127] text-white"
+    : "min-h-screen border-t-4 border-[#ff6600] bg-white text-black";
+
+  const contentClasses = "mx-auto max-w-[1530px] px-16";
 
   useEffect(() => {
     async function loadStories() {
@@ -16,28 +31,41 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-2xl font-bold mb-6">Hacker News</h1>
+    <div className={pageClasses}>
+      <div className={contentClasses}>
+        <Header theme={theme} onToggleTheme={handleToggleTheme} />
 
-      <ol className="space-y-4 list-decimal list-inside">
-        {stories.map((story) => (
-          <li key={story.objectID}>
-            <a
-              href={story.url ?? undefined}
-              target="_blank"
-              rel="noreferrer"
-              className="font-bold hover:text-orange-500"
-            >
-              {story.title}
-            </a>
+        <main>
+          <ol className="space-y-7 list-decimal list-inside">
+            {stories.map((story) => (
+              <li key={story.objectID}>
+                <a
+                  href={
+                    story.url ??
+                    `https://news.ycombinator.com/item?id=${story.objectID}`
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-mono text-xl font-bold hover:text-[#ff6600]"
+                >
+                  {story.title ?? "Untitled story"}
+                </a>
 
-            <p className="text-sm text-gray-400">
-              {story.points} points by {story.author} 1 hour ago |{" "}
-              {story.num_comments} comments | ☆ save
-            </p>
-          </li>
-        ))}
-      </ol>
+                <p className="mt-2 text-sm text-gray-500">
+                  {story.points ?? 0} points by {story.author} 1 hour ago |{" "}
+                  {story.num_comments ?? 0} comments | ☆ save
+                </p>
+              </li>
+            ))}
+          </ol>
+
+          <button className="mt-12 bg-[#ff6600] px-8 py-4 text-xl text-white">
+            show more
+          </button>
+        </main>
+
+        <Footer theme={theme} />
+      </div>
     </div>
   );
 }

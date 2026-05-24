@@ -21,3 +21,5 @@ export type AlgoliaSearchResponse = {
   hitsPerPage: number;
   nbHits: number;
 };
+
+export type Theme = "light" | "dark";
