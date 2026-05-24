@@ -3,14 +3,25 @@ import { StoryItem } from "./StoryItem";
 
 type StoryListProps = {
   stories: AlgoliaStory[];
+  isStoryOpened: (storyId: string) => boolean;
+  onOpenStory: (storyId: string) => void;
 };
 
-export function StoryList({ stories }: StoryListProps) {
+export function StoryList({
+  stories,
+  isStoryOpened,
+  onOpenStory,
+}: StoryListProps) {
   return (
     <>
       <ol className="space-y-7 list-decimal list-inside">
         {stories.map((story) => (
-          <StoryItem key={story.objectID} story={story} />
+          <StoryItem
+            key={story.objectID}
+            story={story}
+            isOpened={isStoryOpened(story.objectID)}
+            onOpenStory={onOpenStory}
+          />
         ))}
       </ol>
 

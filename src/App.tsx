@@ -6,12 +6,14 @@ import { StoryList } from "./components/StoryList";
 import type { AlgoliaStory } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
 import { useTheme } from "./hooks/useTheme";
+import { useOpenedStories } from "./hooks/useOpenedStories";
 
 function App() {
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
   const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { openStory, isStoryOpened } = useOpenedStories();
 
+  const isDark = theme === "dark";
   const pageClasses = isDark
     ? "min-h-screen border-t-4 border-[#ff6600] bg-[#1f2127] text-white"
     : "min-h-screen border-t-4 border-[#ff6600] bg-white text-black";
@@ -33,7 +35,11 @@ function App() {
         <Header theme={theme} onToggleTheme={toggleTheme} />
 
         <main>
-          <StoryList stories={stories} />
+          <StoryList
+            stories={stories}
+            isStoryOpened={isStoryOpened}
+            onOpenStory={openStory}
+          />
         </main>
 
         <Footer theme={theme} />
