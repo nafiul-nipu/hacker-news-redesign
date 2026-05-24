@@ -2,17 +2,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import type { AlgoliaStory, Theme } from "./types";
+import type { AlgoliaStory } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
-  const [theme, setTheme] = useState<Theme>("dark");
-
-  function handleToggleTheme() {
-    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
-  }
-
+  const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
   const pageClasses = isDark
@@ -33,7 +29,7 @@ function App() {
   return (
     <div className={pageClasses}>
       <div className={contentClasses}>
-        <Header theme={theme} onToggleTheme={handleToggleTheme} />
+        <Header theme={theme} onToggleTheme={toggleTheme} />
 
         <main>
           <ol className="space-y-7 list-decimal list-inside">
