@@ -8,6 +8,8 @@ import { useOpenedStories } from "./hooks/useOpenedStories";
 import { useStarredStories } from "./hooks/useStarredStories";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { useLatestStories } from "./hooks/useLatestStories";
+import { useEffect, useRef } from "react";
+import { useIsRestoring } from "@tanstack/react-query";
 
 function App() {
   const {
@@ -18,6 +20,7 @@ function App() {
     isError,
     isFetchingNextPage,
   } = useLatestStories();
+  const isRestoring = useIsRestoring();
   const stories = data?.pages.flatMap((page) => page.stories) ?? [];
 
   const [activeTab, setActiveTab] = useLocalStorage<StoryTab>(
@@ -31,7 +34,47 @@ function App() {
 
   const visibleStories = activeTab === "starred" ? starredStories : stories;
 
-  const [, setSavedPage] = useLocalStorage<number>("hn-latest-page", 0);
+  const [savedScrollY, setSavedScrollY] = useLocalStorage<number>(
+    "hn-scroll-y",
+    0,
+  );
+
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    function handleScroll() {
+      window.clearTimeout(timeoutId);
+
+      timeoutId = window.setTimeout(() => {
+        setSavedScrollY(window.scrollY);
+      }, 150);
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [setSavedScrollY]);
+
+  const hasRestoredScroll = useRef(false);
+  useEffect(() => {
+    if (isRestoring || hasRestoredScroll.current || stories.length === 0) {
+      return;
+    }
+
+    hasRestoredScroll.current = true;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: savedScrollY,
+          behavior: "auto",
+        });
+      });
+    });
+  }, [isRestoring, savedScrollY, stories.length]);
 
   const isDark = theme === "dark";
   const pageClasses = isDark
@@ -41,24 +84,20 @@ function App() {
   const contentClasses = "mx-auto max-w-[1530px] px-5 sm:px-8 lg:px-16";
 
   async function handleLoadMore() {
-    if (!hasNextPage || isFetchingNextPage) {
+    if (!hasNextPage || isFetchingNextPage || isRestoring) {
       return;
     }
 
-    const result = await fetchNextPage();
-    const latestPage = result.data?.pages.at(-1);
-
-    // console.log(result.data?.pages.map((page) => page.stories.length));
-
-    if (latestPage) {
-      setSavedPage(latestPage.page);
-    }
+    await fetchNextPage();
   }
 
   const canLoadMore =
-    activeTab === "latest" && Boolean(hasNextPage) && !isFetchingNextPage;
+    !isRestoring &&
+    activeTab === "latest" &&
+    Boolean(hasNextPage) &&
+    !isFetchingNextPage;
 
-  if (isLoading) {
+  if (isLoading || isRestoring) {
     return (
       <div className={pageClasses}>
         <div className={contentClasses}>Loading stories...</div>
