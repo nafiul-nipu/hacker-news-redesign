@@ -1,8 +1,11 @@
-import { useState } from "react";
 import type { AlgoliaStory } from "../types";
+import { useLocalStorage } from "./useLocalStorage";
 
 export function useStarredStories() {
-  const [starredStories, setStarredStories] = useState<AlgoliaStory[]>([]);
+  const [starredStories, setStarredStories] = useLocalStorage<AlgoliaStory[]>(
+    "hn-starred-stories",
+    [],
+  );
 
   function isStoryStarred(storyId: string) {
     return starredStories.some((story) => story.objectID === storyId);

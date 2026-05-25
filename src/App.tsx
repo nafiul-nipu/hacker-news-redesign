@@ -8,11 +8,15 @@ import { fetchLatestStories } from "./api/algoliaHnAPI";
 import { useTheme } from "./hooks/useTheme";
 import { useOpenedStories } from "./hooks/useOpenedStories";
 import { useStarredStories } from "./hooks/useStarredStories";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useLocalStorage<number>("hn-latest-page", 0);
   const [totalPages, setTotalPages] = useState(0);
-  const [activeTab, setActiveTab] = useState<StoryTab>("latest");
+  const [activeTab, setActiveTab] = useLocalStorage<StoryTab>(
+    "hn-active-tab",
+    "latest",
+  );
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
   const { theme, toggleTheme } = useTheme();
   const { openStory, isStoryOpened } = useOpenedStories();
@@ -30,10 +34,17 @@ function App() {
 
   useEffect(() => {
     async function loadStories() {
-      const latestStories = await fetchLatestStories(0);
-      setStories(latestStories.stories);
-      setPage(latestStories.page);
-      setTotalPages(latestStories.totalPages);
+      const pages = await Promise.all(
+        Array.from({ length: page + 1 }, (_, pageIndex) =>
+          fetchLatestStories(pageIndex),
+        ),
+      );
+
+      const allStories = pages.flatMap((storyPage) => storyPage.stories);
+      const lastPage = pages[pages.length - 1];
+
+      setStories(allStories);
+      setTotalPages(lastPage.totalPages);
     }
 
     loadStories();
@@ -52,6 +63,7 @@ function App() {
       ...currentStories,
       ...nextStoriesPage.stories,
     ]);
+
     setPage(nextStoriesPage.page);
     setTotalPages(nextStoriesPage.totalPages);
   }

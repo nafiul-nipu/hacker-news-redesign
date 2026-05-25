@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
 export function useOpenedStories() {
-  const [openedStoryIds, setOpenedStoryIds] = useState<string[]>([]);
+  const [openedStoryIds, setOpenedStoryIds] = useLocalStorage<string[]>(
+    "hn-opened-story-ids",
+    [],
+  );
 
   function openStory(storyId: string) {
     setOpenedStoryIds((currentIds) => {
