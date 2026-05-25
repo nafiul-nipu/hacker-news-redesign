@@ -9,9 +9,13 @@ export async function fetchLatestStories(page = 0): Promise<StoriesPage> {
     `${ALGOLIA_BASE_URL}/search_by_date?tags=story&page=${page}`,
   );
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch latest Hacker News stories");
+  }
+
   // data
   const data: AlgoliaSearchResponse = await response.json();
-  console.log(data);
+  // console.log(data);
 
   return {
     stories: data.hits,

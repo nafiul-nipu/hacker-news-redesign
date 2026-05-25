@@ -1,5 +1,6 @@
 import type { AlgoliaStory } from "../types";
 import { StoryItem } from "./StoryItem";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 
 type StoryListProps = {
   stories: AlgoliaStory[];
@@ -7,8 +8,9 @@ type StoryListProps = {
   onOpenStory: (storyId: string) => void;
   isStoryStarred: (storyId: string) => boolean;
   onToggleStarredStory: (story: AlgoliaStory) => void;
-  onShowMore: () => void;
-  canShowMore: boolean;
+  onLoadMore: () => void;
+  canLoadMore: boolean;
+  isLoadingMore: boolean;
 };
 
 export function StoryList({
@@ -17,9 +19,15 @@ export function StoryList({
   onOpenStory,
   isStoryStarred,
   onToggleStarredStory,
-  onShowMore,
-  canShowMore,
+  onLoadMore,
+  canLoadMore,
+  isLoadingMore,
 }: StoryListProps) {
+  const loadMoreRef = useInfiniteScroll({
+    enabled: canLoadMore,
+    onLoadMore,
+  });
+
   if (stories.length === 0) {
     return <p className="text-gray-500">No stories to show.</p>;
   }
@@ -39,14 +47,10 @@ export function StoryList({
         ))}
       </div>
 
-      {canShowMore && (
-        <button
-          type="button"
-          onClick={onShowMore}
-          className="mt-12 bg-[#ff6600] px-8 py-4 text-xl text-white"
-        >
-          show more
-        </button>
+      <div ref={loadMoreRef} className="h-10" />
+
+      {isLoadingMore && (
+        <p className="mt-8 text-sm text-gray-500">Loading more stories...</p>
       )}
     </>
   );
