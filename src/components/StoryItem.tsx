@@ -5,6 +5,7 @@ import { getNewsDomain } from "../utils/getNewsDomain";
 import { getStoryUrl } from "../utils/getStoryUrl";
 
 type StoryItemProps = {
+  position: number;
   story: AlgoliaStory;
   isOpened: boolean;
   onOpenStory: (storyId: string) => void;
@@ -13,6 +14,7 @@ type StoryItemProps = {
 };
 
 export function StoryItem({
+  position,
   story,
   isOpened,
   onOpenStory,
@@ -33,34 +35,42 @@ export function StoryItem({
     : "inline-flex items-center gap-1 text-gray-500 hover:text-[#ff6600]";
 
   return (
-    <li>
+    <article className="grid grid-cols-[3rem_1fr] gap-4">
+      <span className="pt-1 text-right font-mono text-xl text-gray-500">
+        {position}.
+      </span>
+
       <div>
-        <a
-          href={storyUrl}
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => onOpenStory(story.objectID)}
-          className={titleClasses}
-        >
-          {story.title ?? "Untitled story"}
-        </a>
+        <div>
+          <a
+            href={storyUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => onOpenStory(story.objectID)}
+            className={titleClasses}
+          >
+            {story.title ?? "Untitled story"}
+          </a>
 
-        <span className="ml-3 text-sm text-gray-500">({newsDomain})</span>
+          <span className="ml-3 text-sm text-gray-500">({newsDomain})</span>
+        </div>
+
+        <p className="mt-2 text-sm text-gray-500">
+          {story.points ?? 0} points by {story.author} {relativeTime} |{" "}
+          {story.num_comments ?? 0} comments |{" "}
+          <button
+            type="button"
+            onClick={() => onToggleStarredStory(story)}
+            aria-label={
+              isStarred ? "Remove from starred stories" : "Save story"
+            }
+            className={starButtonClasses}
+          >
+            {isStarred ? <FaStar /> : <FaRegStar />}
+            <span>{isStarred ? "saved" : "save"}</span>
+          </button>
+        </p>
       </div>
-
-      <p className="mt-2 text-sm text-gray-500">
-        {story.points ?? 0} points by {story.author} {relativeTime} |{" "}
-        {story.num_comments ?? 0} comments |{" "}
-        <button
-          type="button"
-          onClick={() => onToggleStarredStory(story)}
-          aria-label={isStarred ? "Remove from starred stories" : "Save story"}
-          className={starButtonClasses}
-        >
-          {isStarred ? <FaStar /> : <FaRegStar />}
-          <span>{isStarred ? "saved" : "save"}</span>
-        </button>
-      </p>
-    </li>
+    </article>
   );
 }

@@ -18,10 +18,11 @@ export function StoryList({
 }: StoryListProps) {
   return (
     <>
-      <ol className="space-y-7 list-decimal list-inside">
-        {stories.map((story) => (
+      <div className="space-y-7">
+        {stories.map((story, index) => (
           <StoryItem
             key={story.objectID}
+            position={index + 1}
             story={story}
             isOpened={isStoryOpened(story.objectID)}
             onOpenStory={onOpenStory}
@@ -29,7 +30,7 @@ export function StoryList({
             onToggleStarredStory={onToggleStarredStory}
           />
         ))}
-      </ol>
+      </div>
 
       <button className="mt-12 bg-[#ff6600] px-8 py-4 text-xl text-white">
         show more

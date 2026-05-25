@@ -23,3 +23,4 @@ export type AlgoliaSearchResponse = {
 };
 
 export type Theme = "light" | "dark";
+export type StoryTab = "latest" | "starred";

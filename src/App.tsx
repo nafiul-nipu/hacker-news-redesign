@@ -3,17 +3,21 @@ import "./App.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { StoryList } from "./components/StoryList";
-import type { AlgoliaStory } from "./types";
+import type { AlgoliaStory, StoryTab } from "./types";
 import { fetchLatestStories } from "./api/algoliaHnAPI";
 import { useTheme } from "./hooks/useTheme";
 import { useOpenedStories } from "./hooks/useOpenedStories";
 import { useStarredStories } from "./hooks/useStarredStories";
 
 function App() {
+  const [activeTab, setActiveTab] = useState<StoryTab>("latest");
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
   const { theme, toggleTheme } = useTheme();
   const { openStory, isStoryOpened } = useOpenedStories();
-  const { isStoryStarred, toggleStarredStory } = useStarredStories();
+  const { starredStories, isStoryStarred, toggleStarredStory } =
+    useStarredStories();
+
+  const visibleStories = activeTab === "starred" ? starredStories : stories;
 
   const isDark = theme === "dark";
   const pageClasses = isDark
@@ -34,11 +38,16 @@ function App() {
   return (
     <div className={pageClasses}>
       <div className={contentClasses}>
-        <Header theme={theme} onToggleTheme={toggleTheme} />
+        <Header
+          theme={theme}
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+          onToggleTheme={toggleTheme}
+        />
 
         <main>
           <StoryList
-            stories={stories}
+            stories={visibleStories}
             isStoryOpened={isStoryOpened}
             onOpenStory={openStory}
             isStoryStarred={isStoryStarred}
@@ -46,7 +55,11 @@ function App() {
           />
         </main>
 
-        <Footer theme={theme} />
+        <Footer
+          theme={theme}
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+        />
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
-import type { Theme } from "../types";
+import type { StoryTab, Theme } from "../types";
 
 type FooterProps = {
   theme: Theme;
+  activeTab: StoryTab;
+  onChangeTab: (tab: StoryTab) => void;
 };
 
-export function Footer({ theme }: FooterProps) {
+export function Footer({ theme, activeTab, onChangeTab }: FooterProps) {
   const isDark = theme === "dark";
 
   return (
@@ -12,9 +14,33 @@ export function Footer({ theme }: FooterProps) {
       <h2 className="mb-6 text-2xl font-bold">Hacker News</h2>
 
       <nav className="text-xl">
-        <button className={isDark ? "text-white" : "text-black"}>latest</button>
+        <button
+          type="button"
+          onClick={() => onChangeTab("latest")}
+          className={
+            activeTab === "latest"
+              ? "font-bold text-[#ff6600]"
+              : isDark
+                ? "text-white"
+                : "text-black"
+          }
+        >
+          latest
+        </button>
+
         <span className="mx-2 text-gray-500">|</span>
-        <button className={isDark ? "text-white" : "text-black"}>
+
+        <button
+          type="button"
+          onClick={() => onChangeTab("starred")}
+          className={
+            activeTab === "starred"
+              ? "font-bold text-[#ff6600]"
+              : isDark
+                ? "text-white"
+                : "text-black"
+          }
+        >
           starred
         </button>
       </nav>

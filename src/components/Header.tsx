@@ -1,12 +1,19 @@
-import type { Theme } from "../types";
+import type { StoryTab, Theme } from "../types";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 type HeaderProps = {
   theme: Theme;
+  activeTab: StoryTab;
+  onChangeTab: (tab: StoryTab) => void;
   onToggleTheme: () => void;
 };
 
-export function Header({ theme, onToggleTheme }: HeaderProps) {
+export function Header({
+  theme,
+  activeTab,
+  onChangeTab,
+  onToggleTheme,
+}: HeaderProps) {
   const isDark = theme === "dark";
   const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
@@ -19,9 +26,33 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
         <h1 className="text-3xl font-bold tracking-normal">Hacker News</h1>
 
         <nav className="flex items-center gap-2 text-base">
-          <button className="font-bold text-[#ff6600]">latest</button>
-          <span className={isDark ? "text-gray-500" : "text-gray-500"}>|</span>
-          <button className={isDark ? "text-gray-200" : "text-black"}>
+          <button
+            type="button"
+            onClick={() => onChangeTab("latest")}
+            className={
+              activeTab === "latest"
+                ? "font-bold text-[#ff6600]"
+                : isDark
+                  ? "text-gray-200"
+                  : "text-black"
+            }
+          >
+            latest
+          </button>
+
+          <span className="text-gray-500">|</span>
+
+          <button
+            type="button"
+            onClick={() => onChangeTab("starred")}
+            className={
+              activeTab === "starred"
+                ? "font-bold text-[#ff6600]"
+                : isDark
+                  ? "text-gray-200"
+                  : "text-black"
+            }
+          >
             starred
           </button>
         </nav>
