@@ -27,16 +27,16 @@ export function StoryItem({
   const relativeTime = formatRelativeTimeFromSeconds(story.created_at_i);
 
   const titleClasses = isOpened
-    ? "font-mono text-xl font-bold text-gray-500 hover:text-[#ff6600]"
-    : "font-mono text-xl font-bold hover:text-[#ff6600]";
+    ? "font-mono text-base font-bold sm:text-xl text-gray-500 hover:text-[#ff6600]"
+    : "font-mono text-base font-bold sm:text-xl hover:text-[#ff6600]";
 
   const starButtonClasses = isStarred
     ? "inline-flex items-center gap-1 text-[#ff6600]"
     : "inline-flex items-center gap-1 text-gray-500 hover:text-[#ff6600]";
 
   return (
-    <article className="grid grid-cols-[3rem_1fr] gap-4">
-      <span className="pt-1 text-right font-mono text-xl text-gray-500">
+    <article className="grid grid-cols-[2rem_1fr] gap-3 sm:grid-cols-[3rem_1fr] sm:gap-4">
+      <span className="pt-1 text-right font-mono text-base text-gray-500 sm:text-xl">
         {position}.
       </span>
 

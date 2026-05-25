@@ -18,12 +18,14 @@ export function Header({
   const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
   return (
-    <header className="flex items-center justify-between pt-14 pb-14">
-      <div className="flex items-center gap-8">
+    <header className="flex flex-col gap-6 pt-10 pb-12 sm:flex-row sm:items-center sm:justify-between sm:pt-14 sm:pb-14">
+      <div className="flex flex-wrap items-center gap-4 sm:gap-8">
         <div className="flex h-10 w-10 items-center justify-center bg-[#ff6600] text-2xl text-white">
           Y
         </div>
-        <h1 className="text-3xl font-bold tracking-normal">Hacker News</h1>
+        <h1 className="text-2xl font-bold tracking-normal sm:text-3xl">
+          Hacker News
+        </h1>
 
         <nav className="flex items-center gap-2 text-base">
           <button

@@ -38,7 +38,7 @@ function App() {
     ? "min-h-screen border-t-4 border-[#ff6600] bg-[#1f2127] text-white"
     : "min-h-screen border-t-4 border-[#ff6600] bg-white text-black";
 
-  const contentClasses = "mx-auto max-w-[1530px] px-16";
+  const contentClasses = "mx-auto max-w-[1530px] px-5 sm:px-8 lg:px-16";
 
   async function handleLoadMore() {
     if (!hasNextPage || isFetchingNextPage) {
@@ -48,7 +48,7 @@ function App() {
     const result = await fetchNextPage();
     const latestPage = result.data?.pages.at(-1);
 
-    console.log(result.data?.pages.map((page) => page.stories.length));
+    // console.log(result.data?.pages.map((page) => page.stories.length));
 
     if (latestPage) {
       setSavedPage(latestPage.page);
@@ -69,7 +69,7 @@ function App() {
   if (isError) {
     return (
       <div className={pageClasses}>
-        <div className={contentClasses}>Failed to load stories....</div>
+        <div className={contentClasses}>Failed to load stories.</div>
       </div>
     );
   }

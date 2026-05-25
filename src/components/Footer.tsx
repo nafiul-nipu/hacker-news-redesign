@@ -10,7 +10,7 @@ export function Footer({ theme, activeTab, onChangeTab }: FooterProps) {
   const isDark = theme === "dark";
 
   return (
-    <footer className="mt-24 border-t-2 border-[#ff6600] py-12 text-center">
+    <footer className="mt-20 border-t-2 border-[#ff6600] py-10 text-center sm:mt-24 sm:py-12">
       <h2 className="mb-6 text-2xl font-bold">Hacker News</h2>
 
       <nav className="text-xl">
