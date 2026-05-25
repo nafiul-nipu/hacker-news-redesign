@@ -10,6 +10,8 @@ import { useOpenedStories } from "./hooks/useOpenedStories";
 import { useStarredStories } from "./hooks/useStarredStories";
 
 function App() {
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [activeTab, setActiveTab] = useState<StoryTab>("latest");
   const [stories, setStories] = useState<AlgoliaStory[]>([]);
   const { theme, toggleTheme } = useTheme();
@@ -28,13 +30,33 @@ function App() {
 
   useEffect(() => {
     async function loadStories() {
-      const latestStories = await fetchLatestStories();
-      setStories(latestStories);
+      const latestStories = await fetchLatestStories(0);
+      setStories(latestStories.stories);
+      setPage(latestStories.page);
+      setTotalPages(latestStories.totalPages);
     }
 
     loadStories();
   }, []);
 
+  async function handleShowMore() {
+    const nextPage = page + 1;
+
+    if (nextPage >= totalPages) {
+      return;
+    }
+
+    const nextStoriesPage = await fetchLatestStories(nextPage);
+
+    setStories((currentStories) => [
+      ...currentStories,
+      ...nextStoriesPage.stories,
+    ]);
+    setPage(nextStoriesPage.page);
+    setTotalPages(nextStoriesPage.totalPages);
+  }
+
+  const hasMoreStories = page + 1 < totalPages;
   return (
     <div className={pageClasses}>
       <div className={contentClasses}>
@@ -52,6 +74,8 @@ function App() {
             onOpenStory={openStory}
             isStoryStarred={isStoryStarred}
             onToggleStarredStory={toggleStarredStory}
+            onShowMore={handleShowMore}
+            canShowMore={activeTab === "latest" && hasMoreStories}
           />
         </main>
 

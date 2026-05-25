@@ -22,5 +22,11 @@ export type AlgoliaSearchResponse = {
   nbHits: number;
 };
 
+export type StoriesPage = {
+  stories: AlgoliaStory[];
+  page: number;
+  totalPages: number;
+};
+
 export type Theme = "light" | "dark";
 export type StoryTab = "latest" | "starred";

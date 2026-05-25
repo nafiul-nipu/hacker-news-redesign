@@ -7,6 +7,8 @@ type StoryListProps = {
   onOpenStory: (storyId: string) => void;
   isStoryStarred: (storyId: string) => boolean;
   onToggleStarredStory: (story: AlgoliaStory) => void;
+  onShowMore: () => void;
+  canShowMore: boolean;
 };
 
 export function StoryList({
@@ -15,7 +17,12 @@ export function StoryList({
   onOpenStory,
   isStoryStarred,
   onToggleStarredStory,
+  onShowMore,
+  canShowMore,
 }: StoryListProps) {
+  if (stories.length === 0) {
+    return <p className="text-gray-500">No stories to show.</p>;
+  }
   return (
     <>
       <div className="space-y-7">
@@ -32,9 +39,15 @@ export function StoryList({
         ))}
       </div>
 
-      <button className="mt-12 bg-[#ff6600] px-8 py-4 text-xl text-white">
-        show more
-      </button>
+      {canShowMore && (
+        <button
+          type="button"
+          onClick={onShowMore}
+          className="mt-12 bg-[#ff6600] px-8 py-4 text-xl text-white"
+        >
+          show more
+        </button>
+      )}
     </>
   );
 }
