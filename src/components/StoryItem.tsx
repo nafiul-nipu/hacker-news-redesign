@@ -35,8 +35,8 @@ export function StoryItem({
 
   // starred will change text "saved" to orange
   const starButtonClasses = isStarred
-    ? "inline-flex items-center gap-1 text-[#ff6600]"
-    : "inline-flex items-center gap-1 text-gray-500 hover:text-[#ff6600]";
+    ? "inline-flex cursor-pointer items-center gap-1 text-[#ff6600]"
+    : "inline-flex cursor-pointer items-center gap-1 text-gray-500 hover:text-[#ff6600]";
 
   return (
     <article className="grid grid-cols-[2rem_1fr] gap-3 sm:grid-cols-[3rem_1fr] sm:gap-4">

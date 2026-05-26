@@ -19,10 +19,10 @@ export function Footer({ theme, activeTab, onChangeTab }: FooterProps) {
           onClick={() => onChangeTab("latest")}
           className={
             activeTab === "latest"
-              ? "font-bold text-[#ff6600]"
+              ? "cursor-pointer font-bold text-[#ff6600]"
               : isDark
-                ? "text-white"
-                : "text-black"
+                ? "cursor-pointer text-white"
+                : "cursor-pointer text-black"
           }
         >
           latest
@@ -35,10 +35,10 @@ export function Footer({ theme, activeTab, onChangeTab }: FooterProps) {
           onClick={() => onChangeTab("starred")}
           className={
             activeTab === "starred"
-              ? "font-bold text-[#ff6600]"
+              ? "cursor-pointer font-bold text-[#ff6600]"
               : isDark
-                ? "text-white"
-                : "text-black"
+                ? "cursor-pointer text-white"
+                : "cursor-pointer text-black"
           }
         >
           starred

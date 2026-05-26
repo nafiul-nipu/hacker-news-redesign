@@ -36,10 +36,10 @@ export function Header({
             onClick={() => onChangeTab("latest")}
             className={
               activeTab === "latest"
-                ? "font-bold text-[#ff6600]"
+                ? "cursor-pointer font-bold text-[#ff6600]"
                 : isDark
-                  ? "text-gray-200"
-                  : "text-black"
+                  ? "cursor-pointer text-gray-200"
+                  : "cursor-pointer text-black"
             }
           >
             latest
@@ -52,10 +52,10 @@ export function Header({
             onClick={() => onChangeTab("starred")}
             className={
               activeTab === "starred"
-                ? "font-bold text-[#ff6600]"
+                ? "cursor-pointer font-bold text-[#ff6600]"
                 : isDark
-                  ? "text-gray-200"
-                  : "text-black"
+                  ? "cursor-pointer text-gray-200"
+                  : "cursor-pointer text-black"
             }
           >
             starred
@@ -67,7 +67,7 @@ export function Header({
         type="button"
         onClick={onToggleTheme}
         aria-label={themeLabel}
-        className="text-2xl"
+        className="cursor-pointer text-2xl"
       >
         {isDark ? <FaSun /> : <FaMoon />}
       </button>
