@@ -1,4 +1,4 @@
-// Extract a readable domain from article URLs for display beside the story title.
+// get a clean readable domain from article URLs for display beside the story title.
 export function getNewsDomain(url: string | null): string {
   if (!url) {
     return "news.ycombinator.com";

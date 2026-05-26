@@ -15,11 +15,13 @@ export function Header({
   onToggleTheme,
 }: HeaderProps) {
   const isDark = theme === "dark";
+  // accessibility ARIA label
   const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
   return (
     <header className="flex flex-col gap-6 pt-10 pb-12 sm:flex-row sm:items-center sm:justify-between sm:pt-14 sm:pb-14">
       <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+        {/* Hacker News logo */}
         <div className="flex h-10 w-10 items-center justify-center bg-[#ff6600] text-2xl text-white">
           Y
         </div>
@@ -27,6 +29,7 @@ export function Header({
           Hacker News
         </h1>
 
+        {/* navigation between live feed and starred stories */}
         <nav className="flex items-center gap-2 text-base">
           <button
             type="button"
@@ -59,6 +62,7 @@ export function Header({
           </button>
         </nav>
       </div>
+      {/* change theme (persists using localstorage) */}
       <button
         type="button"
         onClick={onToggleTheme}

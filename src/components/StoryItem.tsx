@@ -21,15 +21,19 @@ export function StoryItem({
   isStarred,
   onToggleStarredStory,
 }: StoryItemProps) {
+  // prefer the original article URL
+  // but fall back to the HN discussion page if needed.
   const storyUrl = getStoryUrl(story.url, story.objectID);
 
   const newsDomain = getNewsDomain(story.url);
   const relativeTime = formatRelativeTimeFromSeconds(story.created_at_i);
 
+  // add visited styling opened story
   const titleClasses = isOpened
     ? "font-mono text-base font-bold sm:text-xl text-gray-500 hover:text-[#ff6600]"
     : "font-mono text-base font-bold sm:text-xl hover:text-[#ff6600]";
 
+  // starred will change text "saved" to orange
   const starButtonClasses = isStarred
     ? "inline-flex items-center gap-1 text-[#ff6600]"
     : "inline-flex items-center gap-1 text-gray-500 hover:text-[#ff6600]";

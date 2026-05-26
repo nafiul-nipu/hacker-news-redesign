@@ -1,3 +1,4 @@
+// convert a timestamp into a readable time like "2 hours ago"
 export function formatRelativeTimeFromSeconds(timestamp: number): string {
   const nowInSeconds = Math.floor(Date.now() / 1000);
   const diffInSeconds = nowInSeconds - timestamp;

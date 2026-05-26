@@ -5,11 +5,15 @@ type UseInfiniteScrollOptions = {
   onLoadMore: () => void;
 };
 
+// when the user reaches near the bottom
+// automatically load more stories
 export function useInfiniteScroll({
   enabled,
   onLoadMore,
 }: UseInfiniteScrollOptions) {
+  // reference to the element near the bottom of the news list
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  // always use the latest load-more function
   const onLoadMoreRef = useRef(onLoadMore);
 
   useEffect(() => {
@@ -27,11 +31,13 @@ export function useInfiniteScroll({
       (entries) => {
         const firstEntry = entries[0];
 
+        // load more stories when the bottom div becomes visible
         if (firstEntry.isIntersecting) {
           onLoadMoreRef.current();
         }
       },
       {
+        // start loading slightly before the user fully reaches the bottom
         rootMargin: "200px",
       },
     );

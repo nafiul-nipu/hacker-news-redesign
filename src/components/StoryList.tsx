@@ -23,11 +23,13 @@ export function StoryList({
   canLoadMore,
   isLoadingMore,
 }: StoryListProps) {
+  // detect when the user reaches the bottom of the list to load more stories automatically.
   const loadMoreRef = useInfiniteScroll({
     enabled: canLoadMore,
     onLoadMore,
   });
 
+  // check if we have stories
   if (stories.length === 0) {
     return <p className="text-gray-500">No stories to show.</p>;
   }
@@ -47,7 +49,19 @@ export function StoryList({
         ))}
       </div>
 
+      {/* element used to detect when the user reaches the bottom of the list. */}
       <div ref={loadMoreRef} className="h-10" />
+
+      {/* fallback button in case automatic loading is missed. */}
+      {canLoadMore && (
+        <button
+          type="button"
+          onClick={onLoadMore}
+          className="mt-8 bg-[#ff6600] px-8 py-4 text-xl text-white hover:bg-[#e85c00]"
+        >
+          load more
+        </button>
+      )}
 
       {isLoadingMore && (
         <p className="mt-8 text-sm text-gray-500">Loading more stories...</p>
