@@ -18,8 +18,11 @@ export function Header({
   // accessibility ARIA label
   const themeLabel = isDark ? "Switch to light mode" : "Switch to dark mode";
 
+  const headerClasses = isDark
+    ? "sticky top-0 z-10 flex flex-col gap-6 bg-[#1f2127] py-5 sm:flex-row sm:items-center sm:justify-between sm:py-6"
+    : "sticky top-0 z-10 flex flex-col gap-6 bg-white py-5 sm:flex-row sm:items-center sm:justify-between sm:py-6";
   return (
-    <header className="flex flex-col gap-6 pt-10 pb-12 sm:flex-row sm:items-center sm:justify-between sm:pt-14 sm:pb-14">
+    <header className={headerClasses}>
       <div className="flex flex-wrap items-center gap-4 sm:gap-8">
         {/* Hacker News logo */}
         <div className="flex h-10 w-10 items-center justify-center bg-[#ff6600] text-2xl text-white">
