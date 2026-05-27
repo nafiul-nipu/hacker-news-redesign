@@ -38,7 +38,7 @@ export function useInfiniteScroll({
       },
       {
         // start loading slightly before the user fully reaches the bottom
-        rootMargin: "200px",
+        rootMargin: "100px",
       },
     );
 

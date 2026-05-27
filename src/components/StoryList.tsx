@@ -49,9 +49,6 @@ export function StoryList({
         ))}
       </div>
 
-      {/* element used to detect when the user reaches the bottom of the list. */}
-      <div ref={loadMoreRef} className="h-10" />
-
       {/* fallback button in case automatic loading is missed. */}
       {canLoadMore && (
         <button
@@ -59,13 +56,16 @@ export function StoryList({
           onClick={onLoadMore}
           className="mt-8 bg-[#ff6600] px-8 py-4 text-xl text-white hover:bg-[#e85c00]"
         >
-          load more
+          Load more
         </button>
       )}
 
       {isLoadingMore && (
         <p className="mt-8 text-sm text-gray-500">Loading more stories...</p>
       )}
+
+      {/* element used to detect when the user reaches the bottom of the list. */}
+      <div ref={loadMoreRef} className="h-10" />
     </>
   );
 }
