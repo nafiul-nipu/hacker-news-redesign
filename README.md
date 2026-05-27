@@ -1,6 +1,6 @@
 # Hacker News Redesign
 
-A React and TypeScript implementation of a redesigned Hacker News frontend. The application uses live Hacker News data through the Algolia Hacker News Search API, supports article opening state, starred stories, paginated loading, infinite scrolling, and refresh-safe user state.
+A React and TypeScript implementation of a redesigned Hacker News frontend. The application uses live Hacker News data via the [Algolia Hacker News Search API](https://hn.algolia.com/api) and supports article opening state, starred stories, paginated loading, infinite scrolling, and refresh-safe user state.
 
 ## Table of Contents
 
@@ -34,7 +34,7 @@ The goal of this project is to build a fast, flexible, working Hacker News redes
 
 The application separates two kinds of state:
 
-1. Server state, which is the live Hacker News feed from the API.
+1. Server state, which is the live Hacker News feed from the [Algolia API](https://hn.algolia.com/api).
 2. Client state, which is user-specific behavior such as starred stories, opened stories, theme, tab selection, and scroll position.
 
 This separation is important because the Hacker News feed can change over time, but the user's local actions should remain stable.
@@ -47,25 +47,25 @@ This separation is important because the Hacker News feed can change over time, 
 | Use any libraries that help complete the task            | Completed | Uses React, TypeScript, Vite, Tailwind CSS, React Query, React Query persistence, React Icons, and Vitest.                                                                                                |
 | Use a free API data source to fetch Hacker News data     | Completed | Uses the Algolia Hacker News Search API.                                                                                                                                                                  |
 | Clicking articles opens the original source in a new tab | Completed | Story titles open with `target="_blank"`. If a story has no external URL, it falls back to the Hacker News discussion page.                                                                               |
-| Opened articles display as opened in the app             | Completed | Opened story IDs are saved locally and opened stories use a greyed title style.                                                                                                                           |
+| Opened articles display as opened in the app             | Completed | Opened story IDs are saved locally, and opened stories use a greyed title style.                                                                                                                           |
 | Pagination                                               | Completed | The app supports loading additional API pages. A `Load more` fallback is included, although infinite scrolling may trigger before the button is needed.                                                   |
 | Starring articles saves them separately                  | Completed | Users can save or unsave stories. Saved stories appear in a separate `starred` tab.                                                                                                                       |
-| Come up with a starring solution                         | Completed | Starred stories are stored locally as full story objects so the Starred tab can still render them even if the live feed changes.                                                                          |
+| Come up with a starring solution                         | Completed | Starred stories are stored locally as full story objects, so the Starred tab can still render them even if the live feed changes.                                                                          |
 | Bonus: persistent user state after refresh               | Completed | Starred stories, opened stories, active tab, theme, scroll position, and query cache are retained across refreshes.                                                                                       |
-| Bonus: infinite scrolling                                | Completed | The app automatically loads more stories when the user reaches the bottom area of the list.                                                                                                               |
+| Bonus: infinite scrolling                                | Completed | The app automatically loads more stories when the user reaches the bottom of the list.                                                                                                               |
 | Engineering excellence                                   | Addressed | Includes reusable hooks, separation of server and client state, typed data models, utility tests, linting, build check, and manual QA plan.                                                               |
 | Documentation                                            | Completed | This README documents the design, state model, implementation decisions, testing, tradeoffs, and future work.                                                                                             |
 
 ## How to Run the Project
 
-The project uses `node v22.20.0`. A .nvmrc file is provided so if you have nvm installed, use
+The project uses `node v22.20.0`. A .nvmrc file is provided, so if you have nvm installed, use
 
 ```bash
 nvm install v22.20.0 // if not already installed
 nvm use
 ```
 
-Otherwise install `node v22.20.0`
+Otherwise, install `node v22.20.0.`
 
 Install dependencies:
 
