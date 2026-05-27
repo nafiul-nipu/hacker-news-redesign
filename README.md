@@ -8,6 +8,7 @@ A React and TypeScript implementation of a redesigned Hacker News frontend. The 
 - [Assignment Requirements Checklist](#assignment-requirements-checklist)
 - [How to Run the Project](#how-to-run-the-project)
 - [Available Scripts](#available-scripts)
+- [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
 - [User-Facing Features](#user-facing-features)
 - [Design Interpretation](#design-interpretation)
@@ -58,14 +59,14 @@ This separation is important because the Hacker News feed can change over time, 
 
 ## How to Run the Project
 
-The project uses `node v22.20.0`. A .nvmrc file is provided so if you have nvm installed, use
+The project uses Node `v22.20.0`. A `.nvmrc` file is provided, so if you have `nvm` installed, run:
 
 ```bash
 nvm install v22.20.0 // if not already installed
 nvm use
 ```
 
-Otherwise install `node v22.20.0`
+Otherwise, install Node `v22.20.0` manually.
 
 Install dependencies:
 
@@ -126,6 +127,8 @@ npm run lint
 | React Query Persist Client | Keeps fetched query data available after browser refresh.                             |
 | React Icons                | Provides simple star, moon, and sun icons.                                            |
 | Vitest                     | Lightweight test runner that works well with Vite.                                    |
+| GitHub Actions             | Runs lint, tests, build, and GitHub Pages deployment workflow.                        |
+| GitHub Pages               | Hosts the production build from the `dist/` folder.                                   |
 
 ## Deployment
 
@@ -274,12 +277,10 @@ The application is organized around a small set of clear responsibilities.
 
 ### Components
 
-Components are mostly presentational:
-
-- `Header` renders top navigation and theme toggle.
-- `StoryList` renders the list, empty state, infinite scroll target, Load More button, and loading-more text.
-- `StoryList` renders the list, empty state, infinite scroll target, fallback Load More button, and loading-more text.
-- `Footer` repeats navigation for long scrolling pages.
+- `Header` renders top navigation and the theme toggle.
+- `StoryList` renders the story collection, empty state, infinite scroll target, fallback Load More button, and loading-more text.
+- `StoryItem` renders one story row, including title, domain, metadata, opened styling, and save/saved action.
+- `Footer` repeats tab navigation for long scrolling pages.
 
 ### Hooks
 
@@ -582,7 +583,7 @@ npm run lint
 
 ### Completed and Working Over More Features
 
-The prompt said quality matters more than attempting too many buggy features. I focused on finishing the required and bonus features cleanly instead of adding extra unrelated functionality.
+The requirements said quality matters more than attempting too many buggy features. I focused on finishing the required and bonus features cleanly instead of adding extra unrelated functionality.
 
 ### React Query Instead of Manual Fetch State
 
